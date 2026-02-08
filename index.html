@@ -167,6 +167,19 @@ button{
 @keyframes fall{
   to{transform:translateY(110vh);opacity:0;}
 }
+
+.tapHint{
+  margin-top:18px;
+  font-size:15px;
+  opacity:.85;
+  animation:blink 1.6s infinite;
+}
+
+@keyframes blink{
+  0%,100%{opacity:.3}
+  50%{opacity:1}
+}
+
 </style>
 </head>
 
@@ -180,8 +193,10 @@ button{
 <!-- PAGINA 1 -->
 <div id="page1" class="section active">
   <h1 id="count">3</h1>
-  <p>Tocca lo schermo ❤️</p>
+  <p>Ho una sorpresa per te ❤️</p>
+  <p class="tapHint">Tocca lo schermo per iniziare 🎵</p>
 </div>
+
 
 <!-- PAGINA 2 -->
 <div id="page2" class="section collage">
@@ -231,17 +246,25 @@ function next(){
   if(current===3) typeWriter();
 }
 
-/* ---------- MUSICA + COUNTDOWN (insieme al primo tap) ---------- */
+/* =================================================
+   MUSICA + COUNTDOWN (FIX DEFINITIVO iPhone)
+================================================= */
+
 const music=document.getElementById("music");
 const count=document.getElementById("count");
 
 let started=false;
 
-function startExperience(){
+async function startExperience(){
   if(started) return;
   started=true;
 
-  music.play();
+  try{
+    music.currentTime = 0;
+    await music.play();   // play "forzato"
+  }catch(e){
+    console.log("audio bloccato:", e);
+  }
 
   let c=3;
   count.innerHTML=c;
@@ -257,10 +280,15 @@ function startExperience(){
   },1000);
 }
 
-document.body.addEventListener("touchstart", startExperience, {once:true});
-document.body.addEventListener("click", startExperience, {once:true});
+/* TAP OBBLIGATORIO (iphone) */
+document.addEventListener("touchstart", startExperience, {once:true});
+document.addEventListener("click", startExperience, {once:true});
 
-/* ---------- TYPEWRITER ---------- */
+
+/* =================================================
+   TYPEWRITER
+================================================= */
+
 const text=`Cara Cami,
 
 sono stato colpito da te, dal tuo carattere e dalla tua bellezza.
@@ -285,7 +313,11 @@ function typeWriter(){
   },55);
 }
 
-/* ---------- NO SCAPPA ---------- */
+
+/* =================================================
+   NO SCAPPA
+================================================= */
+
 const noBtn=document.getElementById("noBtn");
 
 function moveNo(){
@@ -296,7 +328,11 @@ function moveNo(){
 noBtn.addEventListener("mouseover",moveNo);
 noBtn.addEventListener("touchstart",moveNo);
 
-/* ---------- FINALE ---------- */
+
+/* =================================================
+   FINALE
+================================================= */
+
 function yes(){
   if(navigator.vibrate) navigator.vibrate(200);
 
@@ -313,7 +349,11 @@ function yes(){
   </div>`;
 }
 
-/* ---------- CUORI ---------- */
+
+/* =================================================
+   CUORI
+================================================= */
+
 setInterval(()=>{
   const h=document.createElement("div");
   h.className="heart";
@@ -323,6 +363,7 @@ setInterval(()=>{
   setTimeout(()=>h.remove(),5000);
 },300);
 </script>
+
 
 </body>
 </html>
