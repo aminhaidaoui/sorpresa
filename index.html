@@ -132,4 +132,153 @@ button{
   width:6px;
   height:6px;
   background:white;
-  border-radius
+  border-radius:50%;
+  animation:boom 1s ease-out forwards;
+}
+
+@keyframes boom{
+  from{transform:scale(0);opacity:1;}
+  to{transform:scale(14);opacity:0;}
+}
+
+.final img{
+  width:220px;
+  border-radius:20px;
+  margin-top:20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<audio id="music" loop>
+  <source src="musica.mp3.mp3" type="audio/mpeg">
+</audio>
+
+<!-- PAGINA 1 -->
+<div id="page1" class="section active">
+  <h1 id="count">3</h1>
+  <p>Ho una sorpresa per te ❤️</p>
+</div>
+
+<!-- PAGINA 2 COLLAGE -->
+<div id="page2" class="section collage">
+
+  <h2 style="margin-top:15px">I nostri momenti da scemi ❤️</h2>
+
+  <img src="foto1.jpg.jpeg" class="p1">
+  <img src="foto2.jpg.jpeg" class="p2">
+  <img src="foto4.jpg.jpeg" class="p3">
+  <img src="foto5.jpg.jpeg" class="p4">
+  <img src="foto6.jpg.jpeg" class="p5">
+  <img src="foto7.jpg.jpeg" class="p6">
+  <img src="foto8.jpg.jpeg" class="p7">
+  <img src="foto9.jpg.jpeg" class="p8">
+  <img src="foto10.jpg.jpeg" class="p9">
+  <img src="foto11.jpg.jpeg" class="p10">
+  <img src="foto1.jpg.jpeg" class="p11">
+
+  <button onclick="next()" style="position:absolute;bottom:30px;">Continua ✨</button>
+</div>
+
+<!-- PAGINA 3 LETTERA SCROLL -->
+<div id="page3" class="section letterPage">
+
+  <div class="letter">
+
+    <img src="foto3.jpg.jpeg">
+
+    <p>
+<b>Cara Cami,</b><br><br>
+sono stato colpito da te, dal tuo carattere e dalla tua bellezza.
+I miei occhi brillano quando ti guardo e mi stai facendo credere di nuovo nell’amore.<br><br>
+
+Sono sicuro di una cosa: mi piace tutto di te, centimetro per centimetro,
+ogni lineamento, ogni tuo sguardo, tutto quello che mi trasmetti.
+Mi dai leggerezza, serenità e la voglia di dare tutto me stesso al 100%.<br><br>
+
+Non abbiamo iniziato nel migliore dei modi,
+ma sono sicuro che finiremo nel migliore.<br><br>
+
+Ti amo più di Giulietta con Romeo… e forse anche più di una 911 (ahahah).<br><br>
+
+Patata mia, grazie per tutto.<br><br>
+
+<b>Il tuo Amin ❤️</b>
+    </p>
+
+  </div>
+
+  <button onclick="next()">Dimmi ❤️</button>
+
+</div>
+
+<!-- PAGINA 4 -->
+<div id="page4" class="section">
+  <h1>Vuoi essere la mia ragazza? ❤️</h1>
+  <button class="yes" onclick="yes()">Sì 😍</button>
+  <button id="noBtn" class="no">No 😜</button>
+</div>
+
+<script>
+
+let current=1;
+
+function next(){
+  document.getElementById("page"+current).classList.remove("active");
+  current++;
+  document.getElementById("page"+current).classList.add("active");
+}
+
+/* musica iphone */
+document.body.addEventListener("click", ()=>{
+  document.getElementById("music").play();
+},{once:true});
+
+/* countdown */
+let c=3;
+const count=document.getElementById("count");
+
+setInterval(()=>{
+  c--;
+  count.innerHTML=c;
+  if(c===0) next();
+},1000);
+
+/* NO scappa */
+const noBtn=document.getElementById("noBtn");
+noBtn.onmouseover=()=>{
+  noBtn.style.left=Math.random()*80+"%";
+  noBtn.style.top=Math.random()*80+"%";
+}
+
+/* SI finale */
+function yes(){
+  document.body.innerHTML=
+  "<div class='final'><h1>❤️ Sono felicissimo ❤️</h1><img src='foto6.jpg.jpeg'></div>";
+
+  setInterval(()=>{
+    const f=document.createElement("div");
+    f.className="firework";
+    f.style.left=Math.random()*100+"vw";
+    f.style.top=Math.random()*100+"vh";
+    document.body.appendChild(f);
+    setTimeout(()=>f.remove(),1000);
+  },120);
+}
+
+/* cuori */
+setInterval(()=>{
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="❤️";
+  h.style.left=Math.random()*100+"vw";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),5000);
+},300);
+
+</script>
+
+</body>
+</html>
