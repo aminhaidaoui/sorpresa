@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Per te ❤️</title>
 
 <style>
@@ -20,7 +21,7 @@ body{
   overflow:hidden;
 }
 
-/* ---------- SEZIONI ---------- */
+/* SEZIONI */
 .section{
   position:absolute;
   inset:0;
@@ -40,7 +41,7 @@ body{
   pointer-events:auto;
 }
 
-/* ---------- BOTTONI ---------- */
+/* BOTTONI */
 button{
   padding:14px 26px;
   border:none;
@@ -53,37 +54,30 @@ button{
 .yes{background:#ff4d6d;color:white;}
 .no{background:white;color:#333;position:absolute}
 
-/* ---------- COLLAGE MOBILE SAFE ---------- */
+/* COLLAGE FOTO */
 .collage{
   overflow-y:auto;
   justify-content:flex-start;
-  padding-top:30px;
+  padding-top:40px;
 }
 
-.title{
-  margin-bottom:20px;
+.photos{
+  display:grid;
+  grid-template-columns:repeat(2,40vw);
+  gap:18px;
 }
 
-.masonry{
-  column-count:2;
-  column-gap:14px;
-  padding:10px;
-  max-width:420px;
-}
-
-.masonry img{
-  width:100%;
-  margin-bottom:14px;
+.photos img{
+  width:40vw;
+  height:40vw;
+  max-width:170px;
+  max-height:170px;
+  object-fit:cover;
   border-radius:18px;
-  box-shadow:0 8px 20px rgba(0,0,0,.35);
-  break-inside:avoid;
-  transform:rotate(calc((var(--r,0) - 0.5) * 6deg));
+  box-shadow:0 10px 25px rgba(0,0,0,.35);
 }
 
-.masonry img:nth-child(odd){ --r:0.2; }
-.masonry img:nth-child(even){ --r:0.8; }
-
-/* ---------- LETTERA ---------- */
+/* LETTERA */
 .letterPage{
   overflow-y:auto;
   justify-content:flex-start;
@@ -106,7 +100,7 @@ button{
   margin-bottom:12px;
 }
 
-/* ---------- FINALE ---------- */
+/* FINALE */
 .final{
   height:100vh;
   display:flex;
@@ -121,7 +115,7 @@ button{
   margin:20px 0;
 }
 
-/* ---------- CUORI ---------- */
+/* CUORI */
 .heart{
   position:fixed;
   top:-10px;
@@ -146,11 +140,11 @@ button{
   <p>Ho una sorpresa per te ❤️</p>
 </div>
 
-<!-- PAGINA 2 (COLLAGE MIGLIORATO) -->
+<!-- PAGINA 2 -->
 <div id="page2" class="section collage">
-  <h2 class="title">I nostri momenti da scemi ❤️</h2>
+  <h2>I nostri momenti da scemi ❤️</h2>
 
-  <div class="masonry">
+  <div class="photos">
     <img src="foto1.jpg.jpeg">
     <img src="foto2.jpg.jpeg">
     <img src="foto4.jpg.jpeg">
@@ -185,6 +179,7 @@ button{
 </div>
 
 <script>
+
 let current=1;
 
 function next(){
@@ -193,7 +188,7 @@ function next(){
   document.getElementById("page"+current).classList.add("active");
 
   if(current===3){
-    typeWriter();
+    typeWriter(); // parte SOLO qui
   }
 }
 
@@ -207,41 +202,35 @@ setInterval(()=>{
   if(c===0) next();
 },1000);
 
-/* MUSICA IPHONE */
+/* MUSICA (iphone fallback) */
 const music=document.getElementById("music");
 music.play().catch(()=>{});
 document.body.addEventListener("click",()=>music.play(),{once:true});
 
-/* TYPEWRITER (LENTO) */
-const text=Cara Cami,
+/* TYPEWRITER */
+const text=`Cara Cami,
 
 sono stato colpito da te, dal tuo carattere e dalla tua bellezza.
-I miei occhi brillano quando ti guardo e mi stai facendo credere di nuovo nell’amore.
+Mi stai facendo credere di nuovo nell’amore.
 
-Sono sicuro di una cosa: mi piace tutto di te, centimetro per centimetro,
-ogni lineamento, ogni tuo sguardo, tutto quello che mi trasmetti.
-Mi dai leggerezza, serenità e la voglia di dare tutto me stesso al 100%.
+Mi piace tutto di te, ogni sguardo, ogni sorriso.
 
 Non abbiamo iniziato nel migliore dei modi,
-ma sono sicuro che finiremo nel migliore.
+ma finiremo nel migliore.
 
-Ti amo più di Giulietta con Romeo… e forse anche più di una 911 (ahahah).
-
-Patata mia, grazie per tutto,
-e spero di lasciarti qualcosa di positivo anch’io.
-
-Il tuo Amin ❤️;
+Il tuo Amin ❤️`;
 
 const target=document.getElementById("typed");
 
 function typeWriter(){
   target.innerHTML="";
   let i=0;
+
   const t=setInterval(()=>{
     target.innerHTML+=text.charAt(i);
     i++;
     if(i>=text.length) clearInterval(t);
-  },55);
+  },25);
 }
 
 /* NO SCAPPA */
@@ -251,19 +240,20 @@ noBtn.onmouseover=()=>{
   noBtn.style.top=Math.random()*80+"%";
 }
 
-/* FINALE CON DATA E ORA */
+/* FINALE CON ORARIO */
 function yes(){
-  const now=new Date();
-  const data=now.getDate().toString().padStart(2,'0')+"/"+(now.getMonth()+1).toString().padStart(2,'0')+"/"+now.getFullYear();
-  const ora=now.getHours().toString().padStart(2,'0')+":"+now.getMinutes().toString().padStart(2,'0');
 
-  document.body.innerHTML=
+  const now=new Date();
+  const ora = now.getHours().toString().padStart(2,'0') + ":" +
+              now.getMinutes().toString().padStart(2,'0');
+
+  document.body.innerHTML=`
   <div class="final">
     <h1>❤️ Sono felicissimo ❤️</h1>
     <img src="foto6.jpg.jpeg">
     <h2>Siamo ufficialmente fidanzati 💕</h2>
-    <p>${data} – ${ora}</p>
-  </div>;
+    <p>Alle ore ${ora}</p>
+  </div>`;
 }
 
 /* CUORI */
@@ -275,6 +265,7 @@ setInterval(()=>{
   document.body.appendChild(h);
   setTimeout(()=>h.remove(),5000);
 },300);
+
 </script>
 
 </body>
