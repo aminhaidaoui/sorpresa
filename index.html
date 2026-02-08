@@ -1,203 +1,3 @@
-<!DOCTYPE html>
-<html lang="it">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Per te ❤️</title>
-
-<style>
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:Arial, sans-serif;
-}
-
-body{
-  height:100vh;
-  overflow:hidden;
-  background:linear-gradient(135deg,#ff9a9e,#fad0c4);
-  color:white;
-}
-
-/* ---------- SEZIONI ---------- */
-
-.section{
-  position:absolute;
-  inset:0;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  opacity:0;
-  pointer-events:none;
-  padding:20px;
-  transition:.5s;
-}
-
-.active{
-  opacity:1;
-  pointer-events:auto;
-}
-
-/* ---------- BOTTONI ---------- */
-
-button{
-  padding:14px 28px;
-  font-size:18px;
-  border:none;
-  border-radius:25px;
-  cursor:pointer;
-  margin-top:20px;
-}
-
-.yes{background:#ff4d6d;color:white;}
-.no{background:white;color:#333;position:absolute}
-
-/* ---------- COLLAGE SCROLL MOBILE ---------- */
-
-.collage{
-  overflow-y:auto;
-  justify-content:flex-start;
-  padding-top:40px;
-}
-
-.photos{
-  display:grid;
-  grid-template-columns:repeat(2, 40vw);
-  gap:20px;
-  justify-content:center;
-}
-
-.photos img{
-  width:40vw;
-  height:40vw;
-  max-width:170px;
-  max-height:170px;
-  object-fit:cover;
-  border-radius:20px;
-  box-shadow:0 10px 25px rgba(0,0,0,.35);
-}
-
-.title{
-  font-size:24px;
-  margin-bottom:20px;
-}
-
-/* ---------- LETTERA ---------- */
-
-.letterPage{
-  overflow-y:auto;
-  justify-content:flex-start;
-  padding-top:40px;
-}
-
-.letter{
-  background:#fffaf0;
-  color:#222;
-  padding:25px;
-  border-radius:18px;
-  max-width:340px;
-  margin-bottom:30px;
-  font-family:"Courier New", monospace; /* stile macchina da scrivere */
-  line-height:1.5;
-  text-align:left;
-}
-
-.letter img{
-  width:140px;
-  border-radius:15px;
-  display:block;
-  margin:0 auto 15px;
-}
-
-/* ---------- CUORI ---------- */
-
-.heart{
-  position:fixed;
-  top:-10px;
-  animation:fall 5s linear infinite;
-}
-
-@keyframes fall{
-  to{transform:translateY(110vh);opacity:0;}
-}
-
-/* ---------- FINALE CENTRATO ---------- */
-
-.final{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  height:100vh;
-}
-
-.final img{
-  width:220px;
-  border-radius:20px;
-  margin-top:20px;
-}
-
-</style>
-</head>
-
-<body>
-
-<!-- MUSICA AUTOPLAY -->
-<audio id="music" autoplay loop>
-  <source src="musica.mp3.mp3" type="audio/mpeg">
-</audio>
-
-<!-- PAGINA 1 -->
-<div id="page1" class="section active">
-  <h1 id="count">3</h1>
-  <p>Ho una sorpresa per te ❤️</p>
-</div>
-
-<!-- PAGINA 2 FOTO -->
-<div id="page2" class="section collage">
-
-  <h2 class="title">I nostri momenti da scemi ❤️</h2>
-
-  <div class="photos">
-    <img src="foto1.jpg.jpeg">
-    <img src="foto2.jpg.jpeg">
-    <img src="foto4.jpg.jpeg">
-    <img src="foto5.jpg.jpeg">
-    <img src="foto6.jpg.jpeg">
-    <img src="foto7.jpg.jpeg">
-    <img src="foto8.jpg.jpeg">
-    <img src="foto9.jpg.jpeg">
-    <img src="foto10.jpg.jpeg">
-    <img src="foto11.jpg.jpeg">
-    <img src="foto1.jpg.jpeg">
-  </div>
-
-  <button onclick="next()">Continua ✨</button>
-</div>
-
-<!-- PAGINA 3 LETTERA -->
-<div id="page3" class="section letterPage">
-
-  <div class="letter">
-    <img src="foto3.jpg.jpeg">
-    <p id="typed"></p>
-  </div>
-
-  <button onclick="next()">Dimmi ❤️</button>
-</div>
-
-<!-- PAGINA 4 -->
-<div id="page4" class="section">
-  <h1>Vuoi essere la mia ragazza? ❤️</h1>
-  <button class="yes" onclick="yes()">Sì 😍</button>
-  <button id="noBtn" class="no">No 😜</button>
-</div>
-
 <script>
 
 let current=1;
@@ -205,15 +5,16 @@ let current=1;
 function next(){
   document.getElementById("page"+current).classList.remove("active");
   current++;
+
   document.getElementById("page"+current).classList.add("active");
+
+  /* 🔥 avvia macchina da scrivere SOLO quando arrivi alla lettera */
+  if(current === 3){
+    startTyping();
+  }
 }
 
-/* fallback musica iphone */
-document.body.addEventListener("click", ()=>{
-  document.getElementById("music").play();
-},{once:true});
-
-/* countdown */
+/* ---------- COUNTDOWN ---------- */
 let c=3;
 const count=document.getElementById("count");
 
@@ -223,55 +24,71 @@ setInterval(()=>{
   if(c===0) next();
 },1000);
 
-/* macchina da scrivere */
-const text=` <p>
-<b>Cara Cami,</b><br><br>
+/* ---------- MUSICA AUTOPLAY + iPhone fallback ---------- */
+const music=document.getElementById("music");
+music.play().catch(()=>{});
+
+document.body.addEventListener("click",()=>{
+  music.play();
+},{once:true});
+
+/* ---------- TYPEWRITER FIX (NESSUN GLITCH) ---------- */
+
+const text=`Cara Cami,
+
 sono stato colpito da te, dal tuo carattere e dalla tua bellezza.
-I miei occhi brillano quando ti guardo e mi stai facendo credere di nuovo nell’amore.<br><br>
+Mi stai facendo credere di nuovo nell’amore.
 
-Sono sicuro di una cosa: mi piace tutto di te, centimetro per centimetro,
-ogni lineamento, ogni tuo sguardo, tutto quello che mi trasmetti.
-Mi dai leggerezza, serenità e la voglia di dare tutto me stesso al 100%.<br><br>
-
+Mi piace tutto di te, ogni sguardo, ogni sorriso.
 Non abbiamo iniziato nel migliore dei modi,
-ma sono sicuro che finiremo nel migliore.<br><br>
+ma finiremo nel migliore.
 
-Ti amo più di Giulietta con Romeo… e forse anche più di una 911 (ahahah).<br><br>
-
-Patata mia, grazie per tutto.<br><br>
-
-<b>Il tuo Amin ❤️</b>
-    </p>
-
-  </div>`
+Il tuo Amin ❤️`;
 
 let i=0;
 const target=document.getElementById("typed");
 
-function typeWriter(){
-  if(i<text.length){
-    target.innerHTML+=text.charAt(i);
+function startTyping(){
+  i=0;
+  target.innerHTML="";   // reset
+
+  const typing=setInterval(()=>{
+    target.innerHTML += text.charAt(i);
     i++;
-    setTimeout(typeWriter,25);
-  }
+
+    if(i>=text.length){
+      clearInterval(typing);
+    }
+  },25);
 }
 
-setTimeout(typeWriter,1500);
-
-/* NO scappa */
+/* ---------- NO CHE SCAPPA ---------- */
 const noBtn=document.getElementById("noBtn");
 noBtn.onmouseover=()=>{
   noBtn.style.left=Math.random()*80+"%";
   noBtn.style.top=Math.random()*80+"%";
 }
 
-/* finale */
+/* ---------- FINALE CON ORARIO ---------- */
+
 function yes(){
+
+  const now=new Date();
+  const ora = now.getHours().toString().padStart(2,'0') + ":" +
+              now.getMinutes().toString().padStart(2,'0');
+
   document.body.innerHTML=
-  "<div class='final'><h1>❤️ Sono felicissimo ❤️</h1><img src='foto6.jpg.jpeg'></div>";
+  `
+  <div class="final">
+    <h1>❤️ Sono felicissimo ❤️</h1>
+    <img src="foto6.jpg.jpeg">
+    <h2 style="margin-top:20px">Siamo ufficialmente fidanzati 💕</h2>
+    <p style="margin-top:8px">Alle ore ${ora}</p>
+  </div>
+  `;
 }
 
-/* cuori */
+/* ---------- CUORI ---------- */
 setInterval(()=>{
   const h=document.createElement("div");
   h.className="heart";
@@ -282,6 +99,3 @@ setInterval(()=>{
 },300);
 
 </script>
-
-</body>
-</html>
