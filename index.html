@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Una cosa per te ❤️</title>
+
+<style>
+body{
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg,#ff9a9e,#fad0c4);
+  text-align:center;
+  padding:40px;
+  color:white;
+}
+
+.section{
+  display:none;
+}
+
+.active{
+  display:block;
+}
+
+button{
+  padding:15px 30px;
+  font-size:18px;
+  border:none;
+  border-radius:25px;
+  margin:10px;
+  cursor:pointer;
+}
+
+.yes{
+  background:#ff4d6d;
+  color:white;
+}
+
+.no{
+  background:#ffffff;
+  color:#333;
+  position:relative;
+}
+
+img{
+  width:200px;
+  border-radius:20px;
+  margin:10px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- PAGINA 1 -->
+<div id="page1" class="section active">
+  <h1>Ciao Cami ❤️</h1>
+  <p>Ho preparato una piccola sorpresa per te…</p>
+  <button onclick="next()">Continua</button>
+</div>
+
+<!-- PAGINA 2 -->
+<div id="page2" class="section">
+  <h2>Perché mi piaci</h2>
+  <p>• Mi fai ridere sempre</p>
+  <p>• Sto bene quando sono con te</p>
+  <p>• Sei speciale per me</p>
+
+  <!-- puoi aggiungere foto qui -->
+  <!-- <img src="WhatsApp Image 2026-02-07 at 18.20.08 (2)"> -->
+
+  <br>
+  <button onclick="next()">Ultima cosa...</button>
+</div>
+
+<!-- PAGINA 3 -->
+<div id="page3" class="section">
+  <h1>Ti andrebbe di essere la mia ragazza? ❤️</h1>
+
+  <button class="yes" onclick="yes()">Sì 😍</button>
+  <button class="no" onmouseover="move(this)">No 😜</button>
+</div>
+
+<script>
+let current = 1;
+
+function next(){
+  document.getElementById("page"+current).classList.remove("active");
+  current++;
+  document.getElementById("page"+current).classList.add("active");
+}
+
+function yes(){
+  document.body.innerHTML = "<h1>❤️ Sono felicissimo ❤️<br>Non vedo l'ora di passare altri momenti con te</h1>";
+}
+
+function move(btn){
+  btn.style.position="absolute";
+  btn.style.top=Math.random()*300+"px";
+  btn.style.left=Math.random()*300+"px";
+}
+</script>
+
+</body>
+</html>
