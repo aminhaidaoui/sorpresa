@@ -1,85 +1,203 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="UTF-8">
-<title>Una cosa per te ❤️</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Per te ❤️</title>
 
 <style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Segoe UI', sans-serif;
+}
+
 body{
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg,#ff9a9e,#fad0c4);
+  height:100vh;
+  overflow:hidden;
+  background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+  display:flex;
+  justify-content:center;
+  align-items:center;
   text-align:center;
-  padding:40px;
   color:white;
 }
 
+/* ---------- SEZIONI ---------- */
+
 .section{
-  display:none;
+  position:absolute;
+  width:100%;
+  padding:30px;
+  opacity:0;
+  transform:translateY(40px);
+  transition:.7s;
 }
 
 .active{
-  display:block;
+  opacity:1;
+  transform:translateY(0);
 }
+
+/* ---------- TESTI ---------- */
+
+h1{ font-size:38px; margin-bottom:20px;}
+h2{ margin-bottom:25px;}
+p{ margin-bottom:15px; font-size:18px; }
+
+/* ---------- BOTTONI ---------- */
 
 button{
-  padding:15px 30px;
+  padding:14px 28px;
   font-size:18px;
   border:none;
-  border-radius:25px;
-  margin:10px;
+  border-radius:30px;
   cursor:pointer;
+  margin:10px;
+  transition:.3s;
 }
 
-.yes{
-  background:#ff4d6d;
-  color:white;
+button:hover{
+  transform:scale(1.1);
 }
 
-.no{
-  background:#ffffff;
-  color:#333;
+.yes{ background:#ff4d6d; color:white; }
+.no{ background:white; color:#333; position:absolute; }
+
+/* ---------- SLIDESHOW ---------- */
+
+.slideshow{
+  width:220px;
+  height:300px;
+  margin:auto;
   position:relative;
 }
 
-img{
-  width:200px;
-  border-radius:20px;
-  margin:10px;
+.slideshow img{
+  position:absolute;
+  width:100%;
+  border-radius:15px;
+  box-shadow:0 12px 30px rgba(0,0,0,.35);
+  opacity:0;
+  transition:1s;
+}
+
+.slideshow img.active{
+  opacity:1;
+}
+
+/* ---------- LETTERA ---------- */
+
+.letter{
+  background:white;
+  color:#333;
+  padding:25px;
+  border-radius:15px;
+  max-width:320px;
+  margin:auto;
+  box-shadow:0 10px 30px rgba(0,0,0,.3);
+  transform:scale(0);
+  transition:.6s;
+}
+
+.letter.open{
+  transform:scale(1);
+}
+
+/* ---------- CUORI ---------- */
+
+.heart{
+  position:fixed;
+  top:-10px;
+  animation:fall 5s linear infinite;
+  color:#ff4d6d;
+}
+
+@keyframes fall{
+  to{
+    transform:translateY(110vh);
+    opacity:0;
+  }
+}
+
+/* ---------- FINALE ---------- */
+
+.final{
+  font-size:42px;
+  animation:zoom 1s ease;
+}
+
+@keyframes zoom{
+  from{transform:scale(0);}
+  to{transform:scale(1);}
 }
 </style>
 </head>
 
 <body>
 
-<!-- PAGINA 1 -->
+<!-- MUSICA -->
+<audio autoplay loop>
+  <source src="musica.mp3" type="audio/mpeg">
+</audio>
+
+<!-- COUNTDOWN -->
 <div id="page1" class="section active">
-  <h1>Ciao Cami ❤️</h1>
-  <p>Ho preparato una piccola sorpresa per te…</p>
+  <h1 id="count">3</h1>
+  <p>Ho una sorpresa per te ❤️</p>
+</div>
+
+<!-- SLIDESHOW FOTO -->
+<div id="page2" class="section">
+  <h2>I nostri momenti 💕</h2>
+  <div class="slideshow">
+    <img src="foto1.jpg.jpeg" class="active">
+    <img src="foto2.jpg.jpeg">
+    <img src="foto3.jpg.jpeg">
+  </div>
+  <br>
   <button onclick="next()">Continua</button>
 </div>
 
-<div id="page2" class="section">
-  <h2>I miei momenti preferiti con te ❤️</h2>
+<!-- LETTERA -->
+<div id="page3" class="section">
+  <button onclick="openLetter()">Apri la lettera 💌</button>
 
-  <img src="foto1.jpg.jpeg">
-  <img src="foto2.jpg.jpeg">
-  <img src="foto3.jpg.jpeg">
-
-  <br><br>
-  <button onclick="next()">Ultima cosa...</button>
+  <div id="letterBox" class="letter">
+    Mi fai sorridere ogni giorno,<br>
+    stare con te mi rende felice.<br><br>
+    Volevo chiederti una cosa speciale...
+    <br><br>
+    <button onclick="next()">Dimmi ❤️</button>
+  </div>
 </div>
 
-
-<!-- PAGINA 3 -->
-<div id="page3" class="section">
-  <h1>Ti andrebbe di essere la mia ragazza? ❤️</h1>
-
+<!-- DOMANDA -->
+<div id="page4" class="section">
+  <h1>Vuoi essere la mia ragazza? ❤️</h1>
   <button class="yes" onclick="yes()">Sì 😍</button>
-  <button class="no" onmouseover="move(this)">No 😜</button>
+  <button id="noBtn" class="no">No 😜</button>
 </div>
 
 <script>
 let current = 1;
+
+/* ---------- COUNTDOWN ---------- */
+
+let c = 3;
+const count = document.getElementById("count");
+
+const timer = setInterval(()=>{
+  c--;
+  count.innerHTML = c;
+  if(c === 0){
+    clearInterval(timer);
+    next();
+  }
+},1000);
+
+/* ---------- NAV ---------- */
 
 function next(){
   document.getElementById("page"+current).classList.remove("active");
@@ -87,15 +205,50 @@ function next(){
   document.getElementById("page"+current).classList.add("active");
 }
 
-function yes(){
-  document.body.innerHTML = "<h1>❤️ Sono felicissimo ❤️<br>Non vedo l'ora di passare altri momenti con te</h1>";
+/* ---------- SLIDESHOW ---------- */
+
+const slides = document.querySelectorAll(".slideshow img");
+let s = 0;
+
+setInterval(()=>{
+  slides[s].classList.remove("active");
+  s = (s+1)%slides.length;
+  slides[s].classList.add("active");
+},2000);
+
+/* ---------- LETTERA ---------- */
+
+function openLetter(){
+  document.getElementById("letterBox").classList.add("open");
 }
 
-function move(btn){
-  btn.style.position="absolute";
-  btn.style.top=Math.random()*300+"px";
-  btn.style.left=Math.random()*300+"px";
+/* ---------- BOTTONE NO CHE SCAPPA ---------- */
+
+const noBtn = document.getElementById("noBtn");
+
+noBtn.addEventListener("mouseover", ()=>{
+  noBtn.style.left = Math.random()*80+"%";
+  noBtn.style.top = Math.random()*80+"%";
+});
+
+/* ---------- RISPOSTA SI ---------- */
+
+function yes(){
+  document.body.innerHTML =
+  "<div class='final'>❤️ Sono felicissimo ❤️<br><br>Non vedo l'ora di vivere tutto con te</div>";
 }
+
+/* ---------- CUORI ---------- */
+
+setInterval(()=>{
+  const heart=document.createElement("div");
+  heart.className="heart";
+  heart.innerHTML="❤️";
+  heart.style.left=Math.random()*100+"vw";
+  heart.style.fontSize=(Math.random()*20+12)+"px";
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),5000);
+},300);
 </script>
 
 </body>
