@@ -16,10 +16,10 @@
 }
 
 body{
-  background:linear-gradient(135deg,#ff9a9e,#fad0c4);
-  color:white;
   height:100vh;
   overflow:hidden;
+  background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+  color:white;
 }
 
 /* ---------- SEZIONI ---------- */
@@ -29,12 +29,12 @@ body{
   inset:0;
   display:flex;
   flex-direction:column;
-  justify-content:center;
   align-items:center;
+  justify-content:center;
+  text-align:center;
   opacity:0;
   pointer-events:none;
   padding:20px;
-  text-align:center;
   transition:.5s;
 }
 
@@ -46,7 +46,7 @@ body{
 /* ---------- BOTTONI ---------- */
 
 button{
-  padding:14px 26px;
+  padding:14px 28px;
   font-size:18px;
   border:none;
   border-radius:25px;
@@ -57,39 +57,37 @@ button{
 .yes{background:#ff4d6d;color:white;}
 .no{background:white;color:#333;position:absolute}
 
-/* ---------- COLLAGE RESPONSIVE ---------- */
+/* ---------- COLLAGE SCROLL MOBILE ---------- */
 
 .collage{
-  position:relative;
-  width:100%;
-  height:100%;
+  overflow-y:auto;
+  justify-content:flex-start;
+  padding-top:40px;
 }
 
-.collage img{
-  position:absolute;
-  width:22vw;
-  height:22vw;
-  max-width:110px;
-  max-height:110px;
+.photos{
+  display:grid;
+  grid-template-columns:repeat(2, 40vw);
+  gap:20px;
+  justify-content:center;
+}
+
+.photos img{
+  width:40vw;
+  height:40vw;
+  max-width:170px;
+  max-height:170px;
   object-fit:cover;
-  border-radius:15px;
-  box-shadow:0 8px 20px rgba(0,0,0,.35);
+  border-radius:20px;
+  box-shadow:0 10px 25px rgba(0,0,0,.35);
 }
 
-/* posizioni con vw (perfette mobile) */
-.p1{top:5%;left:5%}
-.p2{top:8%;right:5%}
-.p3{top:30%;left:3%}
-.p4{top:35%;right:3%}
-.p5{bottom:28%;left:8%}
-.p6{bottom:25%;right:8%}
-.p7{top:55%;left:28%}
-.p8{top:55%;right:28%}
-.p9{bottom:5%;left:32%}
-.p10{bottom:5%;right:32%}
-.p11{top:18%;left:40%}
+.title{
+  font-size:24px;
+  margin-bottom:20px;
+}
 
-/* ---------- LETTERA SCROLL ---------- */
+/* ---------- LETTERA ---------- */
 
 .letterPage{
   overflow-y:auto;
@@ -99,18 +97,21 @@ button{
 
 .letter{
   background:#fffaf0;
-  color:#333;
+  color:#222;
   padding:25px;
   border-radius:18px;
   max-width:340px;
-  margin-bottom:40px;
+  margin-bottom:30px;
+  font-family:"Courier New", monospace; /* stile macchina da scrivere */
   line-height:1.5;
+  text-align:left;
 }
 
 .letter img{
-  width:130px;
+  width:140px;
   border-radius:15px;
-  margin-bottom:12px;
+  display:block;
+  margin:0 auto 15px;
 }
 
 /* ---------- CUORI ---------- */
@@ -125,20 +126,14 @@ button{
   to{transform:translateY(110vh);opacity:0;}
 }
 
-/* ---------- FUOCHI ---------- */
+/* ---------- FINALE CENTRATO ---------- */
 
-.firework{
-  position:fixed;
-  width:6px;
-  height:6px;
-  background:white;
-  border-radius:50%;
-  animation:boom 1s ease-out forwards;
-}
-
-@keyframes boom{
-  from{transform:scale(0);opacity:1;}
-  to{transform:scale(14);opacity:0;}
+.final{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  height:100vh;
 }
 
 .final img{
@@ -152,7 +147,8 @@ button{
 
 <body>
 
-<audio id="music" loop>
+<!-- MUSICA AUTOPLAY -->
+<audio id="music" autoplay loop>
   <source src="musica.mp3.mp3" type="audio/mpeg">
 </audio>
 
@@ -162,56 +158,37 @@ button{
   <p>Ho una sorpresa per te ❤️</p>
 </div>
 
-<!-- PAGINA 2 COLLAGE -->
+<!-- PAGINA 2 FOTO -->
 <div id="page2" class="section collage">
 
-  <h2 style="margin-top:15px">I nostri momenti da scemi ❤️</h2>
+  <h2 class="title">I nostri momenti da scemi ❤️</h2>
 
-  <img src="foto1.jpg.jpeg" class="p1">
-  <img src="foto2.jpg.jpeg" class="p2">
-  <img src="foto4.jpg.jpeg" class="p3">
-  <img src="foto5.jpg.jpeg" class="p4">
-  <img src="foto6.jpg.jpeg" class="p5">
-  <img src="foto7.jpg.jpeg" class="p6">
-  <img src="foto8.jpg.jpeg" class="p7">
-  <img src="foto9.jpg.jpeg" class="p8">
-  <img src="foto10.jpg.jpeg" class="p9">
-  <img src="foto11.jpg.jpeg" class="p10">
-  <img src="foto1.jpg.jpeg" class="p11">
+  <div class="photos">
+    <img src="foto1.jpg.jpeg">
+    <img src="foto2.jpg.jpeg">
+    <img src="foto4.jpg.jpeg">
+    <img src="foto5.jpg.jpeg">
+    <img src="foto6.jpg.jpeg">
+    <img src="foto7.jpg.jpeg">
+    <img src="foto8.jpg.jpeg">
+    <img src="foto9.jpg.jpeg">
+    <img src="foto10.jpg.jpeg">
+    <img src="foto11.jpg.jpeg">
+    <img src="foto1.jpg.jpeg">
+  </div>
 
-  <button onclick="next()" style="position:absolute;bottom:30px;">Continua ✨</button>
+  <button onclick="next()">Continua ✨</button>
 </div>
 
-<!-- PAGINA 3 LETTERA SCROLL -->
+<!-- PAGINA 3 LETTERA -->
 <div id="page3" class="section letterPage">
 
   <div class="letter">
-
     <img src="foto3.jpg.jpeg">
-
-    <p>
-<b>Cara Cami,</b><br><br>
-sono stato colpito da te, dal tuo carattere e dalla tua bellezza.
-I miei occhi brillano quando ti guardo e mi stai facendo credere di nuovo nell’amore.<br><br>
-
-Sono sicuro di una cosa: mi piace tutto di te, centimetro per centimetro,
-ogni lineamento, ogni tuo sguardo, tutto quello che mi trasmetti.
-Mi dai leggerezza, serenità e la voglia di dare tutto me stesso al 100%.<br><br>
-
-Non abbiamo iniziato nel migliore dei modi,
-ma sono sicuro che finiremo nel migliore.<br><br>
-
-Ti amo più di Giulietta con Romeo… e forse anche più di una 911 (ahahah).<br><br>
-
-Patata mia, grazie per tutto.<br><br>
-
-<b>Il tuo Amin ❤️</b>
-    </p>
-
+    <p id="typed"></p>
   </div>
 
   <button onclick="next()">Dimmi ❤️</button>
-
 </div>
 
 <!-- PAGINA 4 -->
@@ -231,7 +208,7 @@ function next(){
   document.getElementById("page"+current).classList.add("active");
 }
 
-/* musica iphone */
+/* fallback musica iphone */
 document.body.addEventListener("click", ()=>{
   document.getElementById("music").play();
 },{once:true});
@@ -246,6 +223,31 @@ setInterval(()=>{
   if(c===0) next();
 },1000);
 
+/* macchina da scrivere */
+const text=`Cara Cami,
+
+sono stato colpito da te, dal tuo carattere e dalla tua bellezza.
+Mi stai facendo credere di nuovo nell’amore.
+
+Mi piace tutto di te, ogni sguardo, ogni sorriso.
+Non abbiamo iniziato nel migliore dei modi,
+ma finiremo nel migliore.
+
+Il tuo Amin ❤️`;
+
+let i=0;
+const target=document.getElementById("typed");
+
+function typeWriter(){
+  if(i<text.length){
+    target.innerHTML+=text.charAt(i);
+    i++;
+    setTimeout(typeWriter,25);
+  }
+}
+
+setTimeout(typeWriter,1500);
+
 /* NO scappa */
 const noBtn=document.getElementById("noBtn");
 noBtn.onmouseover=()=>{
@@ -253,19 +255,10 @@ noBtn.onmouseover=()=>{
   noBtn.style.top=Math.random()*80+"%";
 }
 
-/* SI finale */
+/* finale */
 function yes(){
   document.body.innerHTML=
   "<div class='final'><h1>❤️ Sono felicissimo ❤️</h1><img src='foto6.jpg.jpeg'></div>";
-
-  setInterval(()=>{
-    const f=document.createElement("div");
-    f.className="firework";
-    f.style.left=Math.random()*100+"vw";
-    f.style.top=Math.random()*100+"vh";
-    document.body.appendChild(f);
-    setTimeout(()=>f.remove(),1000);
-  },120);
 }
 
 /* cuori */
