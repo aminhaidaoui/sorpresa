@@ -168,12 +168,12 @@ button{
     <p id="typed"></p>
   </div>
 
-  <button onclick="next()">Dimmi ❤️</button>
+  <button onclick="next()">Premi topaa ❤️</button>
 </div>
 
 <!-- PAGINA 4 -->
 <div id="page4" class="section">
-  <h1>Vuoi essere la mia ragazza? ❤️</h1>
+  <h1>Vuoi essere la mia Topolona? ❤️</h1>
   <button class="yes" onclick="yes()">Sì 😍</button>
   <button id="noBtn" class="no">No 😜</button>
 </div>
@@ -208,17 +208,25 @@ music.play().catch(()=>{});
 document.body.addEventListener("click",()=>music.play(),{once:true});
 
 /* TYPEWRITER */
-const text=`Cara Cami,
+const text=`Amore Cami,
 
 sono stato colpito da te, dal tuo carattere e dalla tua bellezza.
-Mi stai facendo credere di nuovo nell’amore.
+I miei occhi brillano quando ti guardo e mi stai facendo credere di nuovo nell’amore.
 
-Mi piace tutto di te, ogni sguardo, ogni sorriso.
+Sono sicuro di una cosa: mi piace tutto di te, centimetro per centimetro,
+ogni lineamento, ogni tuo sguardo, tutto quello che mi trasmetti.
+Mi dai leggerezza, serenità e la voglia di provare a dare tutto me stesso al 100%.
 
 Non abbiamo iniziato nel migliore dei modi,
-ma finiremo nel migliore.
+ma sono sicuro che finiremo nel migliore.
 
-Il tuo Amin ❤️`;
+Ti amo più di Giulietta con Romeo… e forse anche più di una 911 (ahahah).
+
+Patata mia, grazie per tutto,
+e spero di lasciarti qualcosa di positivo anch’io.
+
+Il tuo Amin ❤️❤️❤️`;
+;
 
 const target=document.getElementById("typed");
 
@@ -230,7 +238,7 @@ function typeWriter(){
     target.innerHTML+=text.charAt(i);
     i++;
     if(i>=text.length) clearInterval(t);
-  },25);
+  },70);
 }
 
 /* NO SCAPPA */
@@ -243,16 +251,23 @@ noBtn.onmouseover=()=>{
 /* FINALE CON ORARIO */
 function yes(){
 
-  const now=new Date();
-  const ora = now.getHours().toString().padStart(2,'0') + ":" +
-              now.getMinutes().toString().padStart(2,'0');
+  const now = new Date();
 
-  document.body.innerHTML=`
+  const giorno =
+    now.getDate().toString().padStart(2,'0') + "/" +
+    (now.getMonth()+1).toString().padStart(2,'0') + "/" +
+    now.getFullYear();
+
+  const ora =
+    now.getHours().toString().padStart(2,'0') + ":" +
+    now.getMinutes().toString().padStart(2,'0');
+
+  document.body.innerHTML = `
   <div class="final">
     <h1>❤️ Sono felicissimo ❤️</h1>
     <img src="foto6.jpg.jpeg">
     <h2>Siamo ufficialmente fidanzati 💕</h2>
-    <p>Alle ore ${ora}</p>
+    <p>${giorno} – ${ora}</p>
   </div>`;
 }
 
