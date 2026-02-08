@@ -190,4 +190,92 @@ let current=1;
 function next(){
   document.getElementById("page"+current).classList.remove("active");
   current++;
-  document.getElementB
+  document.getElementById("page"+current).classList.add("active");
+
+  if(current===3){
+    typeWriter();
+  }
+}
+
+/* COUNTDOWN */
+let c=3;
+const count=document.getElementById("count");
+
+setInterval(()=>{
+  c--;
+  count.innerHTML=c;
+  if(c===0) next();
+},1000);
+
+/* MUSICA IPHONE */
+const music=document.getElementById("music");
+music.play().catch(()=>{});
+document.body.addEventListener("click",()=>music.play(),{once:true});
+
+/* TYPEWRITER (LENTO) */
+const text=`Cara Cami,
+
+sono stato colpito da te, dal tuo carattere e dalla tua bellezza.
+I miei occhi brillano quando ti guardo e mi stai facendo credere di nuovo nell’amore.
+
+Sono sicuro di una cosa: mi piace tutto di te, centimetro per centimetro,
+ogni lineamento, ogni tuo sguardo, tutto quello che mi trasmetti.
+Mi dai leggerezza, serenità e la voglia di dare tutto me stesso al 100%.
+
+Non abbiamo iniziato nel migliore dei modi,
+ma sono sicuro che finiremo nel migliore.
+
+Ti amo più di Giulietta con Romeo… e forse anche più di una 911 (ahahah).
+
+Patata mia, grazie per tutto,
+e spero di lasciarti qualcosa di positivo anch’io.
+
+Il tuo Amin ❤️`;
+
+const target=document.getElementById("typed");
+
+function typeWriter(){
+  target.innerHTML="";
+  let i=0;
+  const t=setInterval(()=>{
+    target.innerHTML+=text.charAt(i);
+    i++;
+    if(i>=text.length) clearInterval(t);
+  },55);
+}
+
+/* NO SCAPPA */
+const noBtn=document.getElementById("noBtn");
+noBtn.onmouseover=()=>{
+  noBtn.style.left=Math.random()*80+"%";
+  noBtn.style.top=Math.random()*80+"%";
+}
+
+/* FINALE CON DATA E ORA */
+function yes(){
+  const now=new Date();
+  const data=now.getDate().toString().padStart(2,'0')+"/"+(now.getMonth()+1).toString().padStart(2,'0')+"/"+now.getFullYear();
+  const ora=now.getHours().toString().padStart(2,'0')+":"+now.getMinutes().toString().padStart(2,'0');
+
+  document.body.innerHTML=`
+  <div class="final">
+    <h1>❤️ Sono felicissimo ❤️</h1>
+    <img src="foto6.jpg.jpeg">
+    <h2>Siamo ufficialmente fidanzati 💕</h2>
+    <p>${data} – ${ora}</p>
+  </div>`;
+}
+
+/* CUORI */
+setInterval(()=>{
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="❤️";
+  h.style.left=Math.random()*100+"vw";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),5000);
+},300);
+</script>
+
+</body>
+</html>
