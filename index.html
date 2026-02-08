@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Per te ❤️</title>
 
 <style>
@@ -40,6 +40,32 @@ body{
   pointer-events:auto;
 }
 
+/* ---------- COUNTDOWN GRANDE ---------- */
+#page1::before{
+  content:"❤️";
+  position:absolute;
+  font-size:230px;
+  opacity:.15;
+}
+
+#count{
+  font-size:140px;
+  font-weight:bold;
+  text-shadow:0 10px 30px rgba(0,0,0,.35);
+  animation:pulse 1s infinite;
+}
+
+#page1 p{
+  font-size:22px;
+  margin-top:15px;
+}
+
+@keyframes pulse{
+  0%{transform:scale(1);}
+  50%{transform:scale(1.18);}
+  100%{transform:scale(1);}
+}
+
 /* ---------- BOTTONI ---------- */
 button{
   padding:14px 26px;
@@ -53,11 +79,11 @@ button{
 .yes{background:#ff4d6d;color:white;}
 .no{background:white;color:#333;position:absolute}
 
-/* ---------- COLLAGE MOBILE SAFE ---------- */
+/* ---------- COLLAGE (IPHONE SAFE) ---------- */
 .collage{
   overflow-y:auto;
   justify-content:flex-start;
-  padding-top:30px;
+  padding-top:calc(90px + env(safe-area-inset-top));
 }
 
 .title{
@@ -69,6 +95,10 @@ button{
   column-gap:14px;
   padding:10px;
   max-width:420px;
+}
+
+@media (min-width:700px){
+  .masonry{ column-count:3; }
 }
 
 .masonry img{
@@ -113,12 +143,18 @@ button{
   flex-direction:column;
   align-items:center;
   justify-content:center;
+  animation:fade .8s ease;
 }
 
 .final img{
   width:220px;
   border-radius:20px;
   margin:20px 0;
+}
+
+@keyframes fade{
+  from{opacity:0; transform:scale(.95);}
+  to{opacity:1; transform:scale(1);}
 }
 
 /* ---------- CUORI ---------- */
@@ -136,17 +172,18 @@ button{
 
 <body>
 
-<audio id="music" autoplay loop>
-  <source src="musica.mp3.mp3" type="audio/mpeg">
+<!-- AUDIO (senza autoplay, parte al tap) -->
+<audio id="music" loop>
+  <source src="musica.mp3" type="audio/mpeg">
 </audio>
 
 <!-- PAGINA 1 -->
 <div id="page1" class="section active">
   <h1 id="count">3</h1>
-  <p>Ho una sorpresa per te ❤️</p>
+  <p>Tocca lo schermo ❤️</p>
 </div>
 
-<!-- PAGINA 2 (COLLAGE MIGLIORATO) -->
+<!-- PAGINA 2 -->
 <div id="page2" class="section collage">
   <h2 class="title">I nostri momenti da scemi ❤️</h2>
 
@@ -161,20 +198,19 @@ button{
     <img src="foto9.jpg.jpeg">
     <img src="foto10.jpg.jpeg">
     <img src="foto11.jpg.jpeg">
-    <img src="foto1.jpg.jpeg">
   </div>
 
   <button onclick="next()">Continua ✨</button>
 </div>
 
-<!-- PAGINA 3 LETTERA -->
+<!-- PAGINA 3 -->
 <div id="page3" class="section letterPage">
   <div class="letter">
     <img src="foto3.jpg.jpeg">
     <p id="typed"></p>
   </div>
 
-  <button onclick="next()">Premi topolona ❤️</button>
+  <button onclick="next()">Dimmi ❤️</button>
 </div>
 
 <!-- PAGINA 4 -->
@@ -192,45 +228,50 @@ function next(){
   current++;
   document.getElementById("page"+current).classList.add("active");
 
-  if(current===3){
-    typeWriter();
-  }
+  if(current===3) typeWriter();
 }
 
-/* COUNTDOWN */
-let c=3;
+/* ---------- MUSICA + COUNTDOWN (insieme al primo tap) ---------- */
+const music=document.getElementById("music");
 const count=document.getElementById("count");
 
-setInterval(()=>{
-  c--;
+let started=false;
+
+function startExperience(){
+  if(started) return;
+  started=true;
+
+  music.play();
+
+  let c=3;
   count.innerHTML=c;
-  if(c===0) next();
-},1000);
 
-/* MUSICA IPHONE */
-const music=document.getElementById("music");
-music.play().catch(()=>{});
-document.body.addEventListener("click",()=>music.play(),{once:true});
+  const timer=setInterval(()=>{
+    c--;
+    count.innerHTML=c;
 
-/* TYPEWRITER (LENTO) */
+    if(c===0){
+      clearInterval(timer);
+      next();
+    }
+  },1000);
+}
+
+document.body.addEventListener("touchstart", startExperience, {once:true});
+document.body.addEventListener("click", startExperience, {once:true});
+
+/* ---------- TYPEWRITER ---------- */
 const text=`Cara Cami,
 
 sono stato colpito da te, dal tuo carattere e dalla tua bellezza.
 I miei occhi brillano quando ti guardo e mi stai facendo credere di nuovo nell’amore.
 
-Sono sicuro di una cosa: mi piace tutto di te, centimetro per centimetro,
-ogni lineamento, ogni tuo sguardo, tutto quello che mi trasmetti.
-Mi dai leggerezza, serenità e la voglia di dare tutto me stesso al 100%.
-
 Non abbiamo iniziato nel migliore dei modi,
 ma sono sicuro che finiremo nel migliore.
 
-Ti amo più di Giulietta con Romeo… e forse anche più di una 911 (ahahah).
+Ti amo tantissimo ❤️
 
-Patata mia, grazie per tutto,
-e spero di lasciarti qualcosa di positivo anch’io.
-
-Il tuo Amin ❤️`;
+Il tuo Amin`;
 
 const target=document.getElementById("typed");
 
@@ -244,18 +285,24 @@ function typeWriter(){
   },55);
 }
 
-/* NO SCAPPA */
+/* ---------- NO SCAPPA ---------- */
 const noBtn=document.getElementById("noBtn");
-noBtn.onmouseover=()=>{
+
+function moveNo(){
   noBtn.style.left=Math.random()*80+"%";
   noBtn.style.top=Math.random()*80+"%";
 }
 
-/* FINALE CON DATA E ORA */
+noBtn.addEventListener("mouseover",moveNo);
+noBtn.addEventListener("touchstart",moveNo);
+
+/* ---------- FINALE ---------- */
 function yes(){
+  if(navigator.vibrate) navigator.vibrate(200);
+
   const now=new Date();
-  const data=now.getDate().toString().padStart(2,'0')+"/"+(now.getMonth()+1).toString().padStart(2,'0')+"/"+now.getFullYear();
-  const ora=now.getHours().toString().padStart(2,'0')+":"+now.getMinutes().toString().padStart(2,'0');
+  const data=now.toLocaleDateString();
+  const ora=now.toLocaleTimeString().slice(0,5);
 
   document.body.innerHTML=`
   <div class="final">
@@ -266,7 +313,7 @@ function yes(){
   </div>`;
 }
 
-/* CUORI */
+/* ---------- CUORI ---------- */
 setInterval(()=>{
   const h=document.createElement("div");
   h.className="heart";
