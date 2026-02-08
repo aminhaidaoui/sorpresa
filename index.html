@@ -57,13 +57,26 @@ body{
 
 #page1 p{
   font-size:22px;
-  margin-top:15px;
+  margin-top:12px;
 }
 
 @keyframes pulse{
   0%{transform:scale(1);}
   50%{transform:scale(1.18);}
   100%{transform:scale(1);}
+}
+
+/* scritta tocca schermo */
+.tapHint{
+  font-size:15px;
+  margin-top:18px;
+  opacity:.85;
+  animation:blink 1.6s infinite;
+}
+
+@keyframes blink{
+  0%,100%{opacity:.3}
+  50%{opacity:1}
 }
 
 /* ---------- BOTTONI ---------- */
@@ -79,7 +92,7 @@ button{
 .yes{background:#ff4d6d;color:white;}
 .no{background:white;color:#333;position:absolute}
 
-/* ---------- COLLAGE (IPHONE SAFE) ---------- */
+/* ---------- COLLAGE (FIX IPHONE NOTCH) ---------- */
 .collage{
   overflow-y:auto;
   justify-content:flex-start;
@@ -107,11 +120,7 @@ button{
   border-radius:18px;
   box-shadow:0 8px 20px rgba(0,0,0,.35);
   break-inside:avoid;
-  transform:rotate(calc((var(--r,0) - 0.5) * 6deg));
 }
-
-.masonry img:nth-child(odd){ --r:0.2; }
-.masonry img:nth-child(even){ --r:0.8; }
 
 /* ---------- LETTERA ---------- */
 .letterPage{
@@ -127,13 +136,6 @@ button{
   border-radius:18px;
   max-width:340px;
   font-family:"Courier New", monospace;
-  line-height:1.5;
-}
-
-.letter img{
-  width:140px;
-  border-radius:15px;
-  margin-bottom:12px;
 }
 
 /* ---------- FINALE ---------- */
@@ -143,18 +145,6 @@ button{
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  animation:fade .8s ease;
-}
-
-.final img{
-  width:220px;
-  border-radius:20px;
-  margin:20px 0;
-}
-
-@keyframes fade{
-  from{opacity:0; transform:scale(.95);}
-  to{opacity:1; transform:scale(1);}
 }
 
 /* ---------- CUORI ---------- */
@@ -167,25 +157,12 @@ button{
 @keyframes fall{
   to{transform:translateY(110vh);opacity:0;}
 }
-
-.tapHint{
-  margin-top:18px;
-  font-size:15px;
-  opacity:.85;
-  animation:blink 1.6s infinite;
-}
-
-@keyframes blink{
-  0%,100%{opacity:.3}
-  50%{opacity:1}
-}
-
 </style>
 </head>
 
 <body>
 
-<!-- AUDIO (senza autoplay, parte al tap) -->
+<!-- AUDIO -->
 <audio id="music" loop>
   <source src="musica.mp3" type="audio/mpeg">
 </audio>
@@ -194,9 +171,8 @@ button{
 <div id="page1" class="section active">
   <h1 id="count">3</h1>
   <p>Ho una sorpresa per te ❤️</p>
-  <p class="tapHint">Tocca lo schermo per iniziare 🎵</p>
+  <p class="tapHint">Tocca lo schermo per iniziare </p>
 </div>
-
 
 <!-- PAGINA 2 -->
 <div id="page2" class="section collage">
@@ -205,32 +181,25 @@ button{
   <div class="masonry">
     <img src="foto1.jpg.jpeg">
     <img src="foto2.jpg.jpeg">
+    <img src="foto3.jpg.jpeg">
     <img src="foto4.jpg.jpeg">
     <img src="foto5.jpg.jpeg">
-    <img src="foto6.jpg.jpeg">
-    <img src="foto7.jpg.jpeg">
-    <img src="foto8.jpg.jpeg">
-    <img src="foto9.jpg.jpeg">
-    <img src="foto10.jpg.jpeg">
-    <img src="foto11.jpg.jpeg">
   </div>
 
-  <button onclick="next()">Continua ✨</button>
+  <button onclick="next()">Avanti ✨</button>
 </div>
 
 <!-- PAGINA 3 -->
 <div id="page3" class="section letterPage">
   <div class="letter">
-    <img src="foto3.jpg.jpeg">
     <p id="typed"></p>
   </div>
-
-  <button onclick="next()">Dimmi ❤️</button>
+  <button onclick="next()">Premi topa ❤️</button>
 </div>
 
 <!-- PAGINA 4 -->
 <div id="page4" class="section">
-  <h1>Vuoi essere la mia ragazza? ❤️</h1>
+  <h1>Vuoi essere la mia topolona? ❤️</h1>
   <button class="yes" onclick="yes()">Sì 😍</button>
   <button id="noBtn" class="no">No 😜</button>
 </div>
@@ -242,37 +211,25 @@ function next(){
   document.getElementById("page"+current).classList.remove("active");
   current++;
   document.getElementById("page"+current).classList.add("active");
-
   if(current===3) typeWriter();
 }
 
-/* =================================================
-   MUSICA + COUNTDOWN (FIX DEFINITIVO iPhone)
-================================================= */
-
+/* MUSICA + COUNTDOWN insieme al TAP (fix iPhone) */
 const music=document.getElementById("music");
 const count=document.getElementById("count");
 
 let started=false;
 
-async function startExperience(){
+function startExperience(){
   if(started) return;
   started=true;
 
-  try{
-    music.currentTime = 0;
-    await music.play();   // play "forzato"
-  }catch(e){
-    console.log("audio bloccato:", e);
-  }
+  music.play();
 
   let c=3;
-  count.innerHTML=c;
-
   const timer=setInterval(()=>{
     c--;
     count.innerHTML=c;
-
     if(c===0){
       clearInterval(timer);
       next();
@@ -280,80 +237,31 @@ async function startExperience(){
   },1000);
 }
 
-/* TAP OBBLIGATORIO (iphone) */
-document.addEventListener("touchstart", startExperience, {once:true});
-document.addEventListener("click", startExperience, {once:true});
+document.addEventListener("touchstart",startExperience,{once:true});
+document.addEventListener("click",startExperience,{once:true});
 
-
-/* =================================================
-   TYPEWRITER
-================================================= */
-
-const text=`Cara Cami,
-
-sono stato colpito da te, dal tuo carattere e dalla tua bellezza.
-I miei occhi brillano quando ti guardo e mi stai facendo credere di nuovo nell’amore.
-
-Non abbiamo iniziato nel migliore dei modi,
-ma sono sicuro che finiremo nel migliore.
-
-Ti amo tantissimo ❤️
-
-Il tuo Amin`;
-
+/* LETTERA */
+const text="Ti amo tantissimo ❤️";
 const target=document.getElementById("typed");
 
 function typeWriter(){
-  target.innerHTML="";
   let i=0;
   const t=setInterval(()=>{
-    target.innerHTML+=text.charAt(i);
-    i++;
+    target.innerHTML+=text[i++];
     if(i>=text.length) clearInterval(t);
-  },55);
+  },60);
 }
 
-
-/* =================================================
-   NO SCAPPA
-================================================= */
-
+/* NO SCAPPA */
 const noBtn=document.getElementById("noBtn");
-
 function moveNo(){
   noBtn.style.left=Math.random()*80+"%";
   noBtn.style.top=Math.random()*80+"%";
 }
-
-noBtn.addEventListener("mouseover",moveNo);
 noBtn.addEventListener("touchstart",moveNo);
+noBtn.addEventListener("mouseover",moveNo);
 
-
-/* =================================================
-   FINALE
-================================================= */
-
-function yes(){
-  if(navigator.vibrate) navigator.vibrate(200);
-
-  const now=new Date();
-  const data=now.toLocaleDateString();
-  const ora=now.toLocaleTimeString().slice(0,5);
-
-  document.body.innerHTML=`
-  <div class="final">
-    <h1>❤️ Sono felicissimo ❤️</h1>
-    <img src="foto6.jpg.jpeg">
-    <h2>Siamo ufficialmente fidanzati 💕</h2>
-    <p>${data} – ${ora}</p>
-  </div>`;
-}
-
-
-/* =================================================
-   CUORI
-================================================= */
-
+/* CUORI */
 setInterval(()=>{
   const h=document.createElement("div");
   h.className="heart";
@@ -363,7 +271,6 @@ setInterval(()=>{
   setTimeout(()=>h.remove(),5000);
 },300);
 </script>
-
 
 </body>
 </html>
